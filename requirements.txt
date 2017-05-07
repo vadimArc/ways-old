@@ -1,0 +1,7 @@
+django
+SQLAlchemy
+psycopg2
+oauth2client
+httplib2
+six
+uritemplate
