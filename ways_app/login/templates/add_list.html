@@ -1,0 +1,6 @@
+Add list to the city: {{city_name}} <br><br>
+<form action="{% url 'add_list' city_name %}" method="POST">{% csrf_token %}
+  <label for="list_name">Enter list name:</label>
+  <input type="text" name="{{ form.list_name.name }}" id="list_name">
+  <input type="submit" value="Add list">
+</form>

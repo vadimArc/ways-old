@@ -1,0 +1,7 @@
+City: {{ city_name }}<br>
+Search results for {{ query }}:<br>
+<br>
+{% for venue in venues %}
+  Name: {{ venue.name }}
+  <br>
+{% endfor %}

@@ -1,0 +1,13 @@
+City: {{user_city.city}} <br>
+List name: {{user_list.name}}
+<br>
+<br>
+<form action="{% url 'user_places' user_city.city %}" method="POST">{% csrf_token %}
+  <label for="Place">Place:</label>
+  <input type="text" name="{{ form.place_name.name }}" id="place"><br>
+  <input type="submit" value="Add Place" />
+</form>
+<br>
+<br>
+Current places:
+<br>

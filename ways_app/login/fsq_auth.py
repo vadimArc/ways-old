@@ -1,0 +1,6 @@
+import foursquare
+
+client = foursquare.Foursquare(
+    client_id='1XKHSJSXBOWI4HFSOHR3GD1PNQBJFR0JEIIBRPZVZ3QJ0COP',
+    client_secret='203BAEZFX1WP2DOMGRHUI120PAGRZB4GQOXNBNLTKUIAXFN2',
+)

@@ -1,0 +1,13 @@
+<form action="{% url 'city_search' %}" method="POST">{% csrf_token %}
+  <label for="city">City:</label>
+  <input type="text" name="{{ form.city.name }}" id="city"><br>
+  <input type="submit" value="Add City" />
+</form>
+
+<div class="my_cities">
+  My cities:<br>
+  {% for city in user_cities %}
+    {{city.city}}<br>
+    <a href="{% url 'add_list' city.city %}">Add List</a><br><br>
+  {% endfor %}
+</div>

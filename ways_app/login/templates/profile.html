@@ -1,0 +1,11 @@
+Here is your profile: <br>
+First Name: {{ profile.first_name }} <br>
+Last Name: {{ profile.last_name }} <br>
+Email: {{ profile.email }} <br>
+Username: {{ profile.username }} <br>
+
+<br>
+<br>
+{% for city in profile.cities_set.all %}
+{{city}}
+{% endfor %}
