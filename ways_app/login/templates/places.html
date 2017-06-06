@@ -11,3 +11,7 @@ List name: {{user_list.name}}
 <br>
 Current places:
 <br>
+{% for venue in user_list.places_set.all %}
+  {{ venue.name }}<br>
+  {{ venue.address}}<br><br>
+{% endfor %}

@@ -15,6 +15,13 @@ class ListAdd(forms.Form):
 class PlaceAdd(forms.Form):
     place_name = forms.CharField(label='Place name', max_length=100)
 
+class PlaceSave(forms.Form):
+    place_id = forms.CharField(label='Place ID', max_length=100)
+
+class FindFriends(forms.Form):
+    username = forms.CharField(label='username', max_length=100)
+
+
 #1. Search from CityForm
 #2. Present the Name
 #3. Confirmation page

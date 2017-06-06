@@ -13,4 +13,6 @@ urlpatterns = [
     url(r'^addlist/(?P<city_name>.*)/$', views.add_list, name='add_list'),
     url(r'^profile/$', views.profile, name = 'profile'),
     url(r'^(?P<city_name>.*)/places/$', views.user_places, name='user_places'),
+    url(r'^(?P<city_name>.*)/(?P<venue_id>.*)/save/$', views.add_place, name='add_place'),
+    url(r'^friends/$', views.user_friends, name='friends')
 ]

@@ -1,0 +1,5 @@
+{{search_results.username}}
+<br>
+<form action="{% url 'add_friend' city_name venue.id %}" method="POST">{% csrf_token %}
+  <button type="submit" name="{{ form.place_id.name }}" value="{{ venue.id }}">Save Place</button>
+</form>

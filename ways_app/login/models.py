@@ -4,6 +4,8 @@ import base64
 from django.contrib import admin
 from django.contrib.auth.models import User
 from django.db import models
+from jsonfield import JSONField
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -11,6 +13,7 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=30)
     email = models.EmailField(max_length=100, unique=True, default='default@test.com')
     username = models.CharField(max_length=30, unique=True)
+    friends = models.ManyToManyField('self', blank=True, symmetrical=False)
 
 class Cities(models.Model):
     city = models.CharField(max_length=30, default="dao1", unique="true")
@@ -18,9 +21,6 @@ class Cities(models.Model):
     city_user = models.ManyToManyField(
         Profile
     )
-
-class Places(models.Model):
-    name = models.CharField(max_length=30, default="dao3")
 
 
 class Lists(models.Model):
@@ -34,9 +34,6 @@ class Lists(models.Model):
         Profile,
         related_name="followers_lists"
     )
-    places = models.ManyToManyField(
-        Places
-    )
     city = models.ForeignKey(
         Cities,
         on_delete=models.CASCADE,
@@ -45,9 +42,25 @@ class Lists(models.Model):
 
     #change to 1-m
 
+class Places(models.Model):
+    name = models.CharField(max_length=30, default="dao3")
+    venue_id = models.CharField(max_length=50, default="dao3")
+    category = models.CharField(max_length=100, default="dao3")
+    category_id = models.CharField(max_length=100, default="dao3")
+    address = models.CharField(max_length=100, default="dao3")
+    lat = models.IntegerField(null=True)
+    lng = models.IntegerField(null=True)
+    city = models.ForeignKey(
+        Cities,
+        on_delete=models.CASCADE,
+        null=True
+    )
+    lists = models.ManyToManyField(
+        Lists
+    )
 
-
-
+class Cache(models.Model):
+    data = JSONField()
 
 
 

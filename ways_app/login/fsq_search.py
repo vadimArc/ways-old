@@ -1,4 +1,5 @@
 from .fsq_auth import client
+from login.models import Profile, Cities, Lists, Cache, Places
 
 def city_search(query):
     #looks up the city information
@@ -31,7 +32,22 @@ def venue_query_search(query, city):
             'id': venue['id'],
             'name': venue['name'],
             'category': venue['categories'][0]['name'],
-            'address': venue['location']['address']
+            'address': venue['location']['address'],
+
         }
         venues_info.append(results)
     return venues_info
+
+def venue_save(venue_id, city_name):
+    venue = client.venues(venue_id)['venue']
+    venue_info = Places(
+        name = venue['name'],
+        venue_id = venue['id'],
+        category = venue['categories'][0]['name'],
+        category_id = venue['categories'][0]['id'],
+        address = venue['location']['address'],
+        lat = venue['location']['lat'],
+        lng = venue['location']['lng']
+    )
+    venue_info.save()
+    return venue_info

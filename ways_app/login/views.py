@@ -1,13 +1,13 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, HttpResponseRedirect, reverse
 from django.contrib.auth.models import User
 
-from login.models import Profile, Cities, Lists
-from .forms import UserForm, CitySearch, ListAdd, PlaceAdd
+from login.models import Profile, Cities, Lists, Cache, Places
+from .forms import UserForm, CitySearch, ListAdd, PlaceAdd, PlaceSave, FindFriends
 from .decorators import profile_exists
 from .fsq_auth import client
-from .fsq_search import city_search, venue_query_search
+from .fsq_search import city_search, venue_query_search, venue_save
 
 def index(request):
     return render(request, 'home.html')
@@ -113,12 +113,35 @@ def user_places(request, city_name):
                 query = form.cleaned_data['place_name'],
                 city = user_city.city
             )
-            return render(request, 'places_search_results.html', {'city_name':city_name, 'user_city':user_city, 'venues':found_venues})
+            return render(request, 'places_search_results.html', {'city_name':city_name, 'venues':found_venues, 'form':PlaceSave()})
     else:
         form = PlaceAdd()
     return render(request, 'places.html', {'user_list': user_list, 'user_city': user_city, 'form': form})
 
 @login_required
 @profile_exists
-def search_places(request, city_name, user_city, venues):
-    return render(request, 'places_search_results.html',{'city_name':city_name, 'query':'test', 'places_search_results':venues})
+def add_place(request, city_name, venue_id):
+    if request.method == 'POST':
+        form = PlaceSave(request.POST)
+        if form.is_valid():
+            venue_info = venue_save(venue_id, city_name)
+            user = request.user.profile
+            city = user.cities_set.filter(city=city_name).first()
+            list = city.lists_set.first()
+            list.places_set.add(venue_info)
+            return redirect(user_places, city_name = city_name)
+
+@login_required
+@profile_exists
+def user_friends(request):
+    user = request.user.profile
+    if request.method == 'POST':
+        form = FindFriends(request.POST)
+        if form.is_valid():
+            query = form.cleaned_data['username']
+            results = Profile.objects.filter(username=query).first()
+            results.profile_set.add(user)
+            return render(request, 'friends.html', {'user': user, 'form': form})
+    else:
+        form = FindFriends()
+    return render(request, 'friends.html', {'user': user, 'form': form})

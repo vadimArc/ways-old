@@ -1,0 +1,16 @@
+User: {{ user.username }}<br>
+<br>
+<form action="{% url 'friends' %}" method="POST">{% csrf_token %}
+  <label for="find_friends">Username:</label>
+  <input type="text" name="{{ form.username.name }}" id="username" placeholder="enter username"><br>
+  <input type="submit" value="Find friends">
+</form>
+
+<br>
+<br>
+Friend list:
+<br>
+{% for friend in user.friends.all %}
+  {{friend.first_name}} {{friend.last_name}}
+  <br><br>
+{% endfor %}
