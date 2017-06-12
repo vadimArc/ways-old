@@ -1,0 +1,4 @@
+language: python
+before_install:
+- openssl aes-256-cbc -K $encrypted_369023b5e48c_key -iv $encrypted_369023b5e48c_iv
+  -in ways-test-39912dd27af2.json.enc -out ways-test-39912dd27af2.json -d

@@ -65,6 +65,9 @@ class Cache(models.Model):
 
 
 
+
+
+
 #1. User adds city
 #2. User selects city
 #3. User adds items to the list
