@@ -7,3 +7,6 @@ six
 uritemplate
 foursquare
 jsonfield
+social-auth-app-django
+gunicorn==19.7.1
+wheel==0.29.0

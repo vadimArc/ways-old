@@ -81,13 +81,26 @@ WSGI_APPLICATION = 'ways_app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+# [START dbconfig]
 DATABASES = {
     'default': {
+        # If you are using Cloud SQL for MySQL rather than PostgreSQL, set
+        # 'ENGINE': 'django.db.backends.mysql' instead of the following.
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ways_db',
+        'NAME': 'waystest01',
+        'USER': 'ways_user',
+        'PASSWORD': 'spider299',
     }
 }
-
+# In the flexible environment, you connect to CloudSQL using a unix socket.
+# Locally, you can use the CloudSQL proxy to proxy a localhost connection
+# to the instance
+DATABASES['default']['HOST'] = '/cloudsql/ways-166417:europe-west1:ways-test-01'
+if os.getenv('GAE_INSTANCE'):
+    pass
+else:
+    DATABASES['default']['HOST'] = '127.0.0.1'
+# [END dbconfig]
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -133,7 +146,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
+# [START staticurl]
+# Fill in your cloud bucket and switch which one of the following 2 lines
+# is commented to serve static content from GCS
+STATIC_URL = 'https://storage.googleapis.com/ways-test/static/'
+# STATIC_URL = '/static/'
+# [END staticurl]
+
+STATIC_ROOT = 'static/'
 
 SOCIAL_AUTH_FACEBOOK_KEY = '1423188991085328'  # App ID
 SOCIAL_AUTH_FACEBOOK_SECRET = '0f82738cf04e409d0cac5b3fe41c00d8'  # App Secret

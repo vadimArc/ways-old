@@ -1,0 +1,10 @@
+# [START runtime]
+runtime: python
+env: flex
+entrypoint: gunicorn -b :$PORT ways_app.wsgi.application
+beta_settings:
+    cloud_sql_instances: ways-166417:europe-west1:ways-test-01
+
+runtime_config:
+  python_version: 3.6
+# [END runtime]
